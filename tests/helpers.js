@@ -65,41 +65,71 @@ describe( 'extractPlusMinusEventData', () => {
     expect( helpers.extractPlusMinusEventData( 'Hello++' ) ).toBeFalse();
   });
 
-  it( 'drops messages without a valid operation', () => {
+  it( 'Users: drops messages without a valid operation', () => {
     expect( helpers.extractPlusMinusEventData( '@Hello' ) ).toBeFalse();
   });
 
-  it( 'drops messages without a valid user/item', () => {
+  it( 'Users: drops messages without a valid user/item', () => {
     expect( helpers.extractPlusMinusEventData( '@++' ) ).toBeFalse();
   });
 
-  it( 'extracts a \'thing\' and operation from the start of a message', () => {
+  it( 'Users: extracts a \'thing\' and operation from the start of a message', () => {
     expect( helpers.extractPlusMinusEventData( '@SomethingRandom++ that was awesome' ) ).toEqual({
       item: 'SomethingRandom',
       operation: '+'
     });
   });
 
-  it( 'extracts a user and operation from the start of a message', () => {
+  it( 'Users: extracts a user and operation from the start of a message', () => {
     expect( helpers.extractPlusMinusEventData( '<@U87654321>++ that was awesome' ) ).toEqual({
       item: 'U87654321',
       operation: '+'
     });
   });
 
-  it( 'extracts data in the middle of a message', () => {
+  it( 'Users: extracts data in the middle of a message', () => {
     expect( helpers.extractPlusMinusEventData( 'Hey @SomethingRandom++ you\'re great' ) ).toEqual({
       item: 'SomethingRandom',
       operation: '+'
     });
   });
 
-  it( 'extracts data at the end of a message', () => {
+  it( 'Users: extracts data at the end of a message', () => {
     expect( helpers.extractPlusMinusEventData( 'Awesome work @SomethingRandom++' ) ).toEqual({
       item: 'SomethingRandom',
       operation: '+'
     });
   });
+
+  it( 'Hashtags: drops messages without a valid operation', () => {
+    expect( helpers.extractPlusMinusEventData( '#tacos' ) ).toBeFalse();
+  });
+
+  it( 'Hashtags: drops messages without a valid user/item', () => {
+    expect( helpers.extractPlusMinusEventData( '#++' ) ).toBeFalse();
+  });
+
+  it( 'Hashtags: extracts a thing and operation from the start of a message', () => {
+    expect( helpers.extractPlusMinusEventData( '#tacos++ are awesome' ) ).toEqual({
+      item: 'tacos',
+      operation: '+'
+    });
+  });
+
+  it( 'Hashtags: extracts data in the middle of a message', () => {
+    expect( helpers.extractPlusMinusEventData( 'Oh my #tacos++ are great' ) ).toEqual({
+      item: 'tacos',
+      operation: '+'
+    });
+  });
+
+  it( 'Hashtags: extracts data at the end of a message', () => {
+    expect( helpers.extractPlusMinusEventData( 'Man i love #tacos++' ) ).toEqual({
+      item: 'tacos',
+      operation: '+'
+    });
+  });
+
 
   const itemsToMatch = [
     {
@@ -113,6 +143,10 @@ describe( 'extractPlusMinusEventData', () => {
     {
       supplied: '@SomethingRandom123',
       expected: 'SomethingRandom123'
+    },
+    {
+      supplied: '#Tacos',
+      expected: 'Tacos'
     }
   ];
 

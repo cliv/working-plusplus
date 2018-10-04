@@ -146,7 +146,7 @@ describe( 'handlers.message', () => {
   it( 'returns false if a valid item cannot be extracted', () => {
     const event = {
       type: eventType,
-      text: '@Invalid#Item++'
+      text: '@Invalid*Item++'
     };
 
     expect( handlers.message( event ) ).toBeFalse();

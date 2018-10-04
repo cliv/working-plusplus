@@ -64,15 +64,15 @@ const extractCommand = ( message, commands ) => {
  *                   (i.e. + or -).
  */
 const extractPlusMinusEventData = ( text ) => {
-  const data = text.match( /@([A-Za-z0-9]+?)>?\s*(\+{2}|-{2}|—{1})/ );
+  const data = text.match( /(@|#)([A-Za-z0-9]+?)>?\s*(\+{2}|-{2}|—{1})(\s|$)/ );
 
   if ( ! data ) {
     return false;
   }
 
   return {
-    item: data[1],
-    operation: data[2].substring( 0, 1 ).replace( '—', '-' )
+    item: data[2],
+    operation: data[3].substring( 0, 1 ).replace( '—', '-' )
   };
 
 }; // ExtractPlusMinusEventData.
