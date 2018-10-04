@@ -69,7 +69,8 @@ messages[ operations.SELF ] = [
       'Hahahahahahaha no.',
       'Nope.',
       'No. Just no.',
-      'Not cool!'
+      'Not cool!',
+      '%E0%B2%A0%E2%95%AD%E2%95%AE%E0%B2%A0'
     ]
   },
   {

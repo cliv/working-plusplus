@@ -79,6 +79,29 @@ const sayThankyou = ( event ) => {
 }; // SayThankyou.
 
 /**
+ * Sends a random sorry you message to the requesting channel.
+ *
+ * @param {object} event   A hash of a validated Slack 'app_mention' event. See the docs at
+ *                         https://api.slack.com/events-api#events_dispatched_as_json and
+ *                         https://api.slack.com/events/app_mention for details.
+ * @returns {Promise} A Promise to send the Slack message.
+ */
+const saySorry = ( event ) => {
+
+  const sorryMessage = [
+    ':sob:',
+    'Sorry.',
+    'I\'ll do better next time'
+  ];
+
+  const randomKey = Math.floor( Math.random() * sorryMessage.length ),
+        message = '<@' + event.user + '> ' + sorryMessage[ randomKey ];
+
+  return slack.sendMessage( message, event.channel );
+
+}; // SaySorry.
+
+/**
  * Sends a help message, explaining the bot's commands, to the requesting channel.
  *
  * @param {object} event   A hash of a validated Slack 'app_mention' event. See the docs at
@@ -99,7 +122,7 @@ const sendHelp = ( event ) => {
     'You\'ll need to invite me to a channel before I can recognise ' +
     '`++` and `--` commands in it.\n\n' +
     'If you\'re a developer, you can teach me new things! ' +
-    'See <https://github.com/tdmalone/working-plusplus|my GitHub repo> to get started.'
+    'See <https://github.com/cliv/working-plusplus|my GitHub repo> to get started.'
   );
 
   return slack.sendMessage( message, event.channel );
@@ -158,7 +181,9 @@ const handlers = {
       help: sendHelp,
       thx: sayThankyou,
       thanks: sayThankyou,
-      thankyou: sayThankyou
+      thankyou: sayThankyou,
+      plusplus: sayThankyou,
+      minusminus: saySorry
     };
 
     const validCommands = Object.keys( appCommandHandlers ),
@@ -228,6 +253,7 @@ module.exports = {
   handleSelfPlus,
   handlePlusMinus,
   sayThankyou,
+  saySorry,
   sendHelp,
   handlers,
   handleEvent

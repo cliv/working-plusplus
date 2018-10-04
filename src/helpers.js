@@ -33,13 +33,16 @@ const ONE_DAY = 60 * 60 * 24, // eslint-disable-line no-magic-numbers
  * @param {array}  commands The commands to look for.
  * @return {string|Boolean} Either the first command found, or false if no commands were found.
  */
-const extractCommand = ( message, commands ) => {
+const extractCommand = ( message, commands ) => {      
 
   let firstLocation = Number.MAX_SAFE_INTEGER,
       firstCommand;
 
   for ( const command of commands ) {
-    const location = message.indexOf( command );
+    const location = message
+      .replace( /--/g, 'minusminus' )
+      .replace( /\+\+/g, 'plusplus' )
+      .indexOf( command );
     if ( -1 !== location && location < firstLocation ) {
       firstLocation = location;
       firstCommand = command;
